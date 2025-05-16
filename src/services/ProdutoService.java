@@ -13,28 +13,26 @@ public class ProdutoService {
         produtoRepository.criarTabela();
     }
 
-    public void criarProduto(String nome, double preco) {
-        if(nome == null || nome.isBlank()) {
+    public void criarProduto(Produto produto) {
+        if(produto.getNome() == null || produto.getNome().isBlank()) {
             System.out.println("Nome do produto não pode ser vazio.");
             return;
         }
 
-        if(preco < 0) {
+        if(produto.getPreco() < 0) {
             System.out.println("Informe um preco acima de R$0");
             return;
         }
 
-        Produto newProduct = new Produto(0, nome, preco);
-        produtoRepository.salvar(newProduct);
+        produtoRepository.salvar(produto);
     }
 
     public List<Produto> listarProdutos() {
         return produtoRepository.listarTodos();
     }
 
-    public void editarProduto(int id, String novoNome, double novoPreco) {
-        Produto novoProduto = new Produto(id, novoNome, novoPreco);
-        produtoRepository.atualizar(novoProduto);
+    public void editarProduto(Produto produto) {
+        produtoRepository.atualizar(produto);
     }
 
     public void deletarProduto(int id) {

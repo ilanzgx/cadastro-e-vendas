@@ -1,9 +1,22 @@
 package entities;
 
+import java.util.Map;
+
 public class Venda {
+    private Integer id;
     private Cliente cliente;
-    private Produto[] produtos;
-    private Integer quantidade;
+    private Map<Produto, Integer> produtosQuantidades;
+    private String data;
+
+    public Venda() {}
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Cliente getCliente() {
         return cliente;
@@ -13,19 +26,19 @@ public class Venda {
         this.cliente = cliente;
     }
 
-    public Produto[] getProdutos() {
-        return produtos;
+    public Map<Produto, Integer> getProdutosQuantidades() {
+        return produtosQuantidades;
     }
 
-    public void setProdutos(Produto[] produtos) {
-        this.produtos = produtos;
+    public void setProdutosQuantidades(Map<Produto, Integer> produtosQuantidades) {
+        this.produtosQuantidades = produtosQuantidades;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
+    public String getData() {
+        return data;
     }
 
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
+    public void setData(String data) {
+        this.data = data;
     }
 }

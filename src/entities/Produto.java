@@ -5,6 +5,7 @@ public class Produto {
     private String nome;
     private Double preco;
 
+    public Produto() {}
     public Produto(Integer id, String nome, Double preco) {
         this.id = id;
         this.nome = nome;

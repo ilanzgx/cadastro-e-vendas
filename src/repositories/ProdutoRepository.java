@@ -3,28 +3,51 @@ package repositories;
 import database.SQLiteConnection;
 import entities.Produto;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoRepository {
     public void criarTabela() {
-        String query = "CREATE TABLE IF NOT EXISTS produtos(id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, preco REAL)";
+        String queryProdutos = """
+            CREATE TABLE IF NOT EXISTS produtos(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nome TEXT NOT NULL,
+                preco REAL NOT NULL,
+                tipo TEXT
+            );
+        """;
+
+        String queryLivros = """
+            CREATE TABLE IF NOT EXISTS livros(
+                produto_id INTEGER PRIMARY KEY,
+                autor TEXT NOT NULL,
+                FOREIGN KEY (produto_id) REFERENCES produtos(id)
+            );
+        """;
 
         try(Connection connection = SQLiteConnection.conectar(); Statement statement = connection.createStatement()) {
-            statement.execute(query);
+            statement.execute(queryProdutos);
+            statement.execute(queryLivros);
         } catch(SQLException error) {
-            System.out.println("Erro ao criar a tabela de produto: " + error.getMessage());
+            System.out.println("Erro ao criar a tabela de produtos e livros: " + error.getMessage());
         }
     }
 
     public void salvar(Produto produto) {
-        String query = "INSERT INTO produtos(nome, preco) VALUES (?, ?)";
+        String query = "INSERT INTO produtos(nome, preco, tipo) VALUES (?, ?, ?)";
 
-        try(Connection connection = SQLiteConnection.conectar(); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try(Connection connection = SQLiteConnection.conectar(); PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, produto.getNome());
             preparedStatement.setDouble(2, produto.getPreco());
+            preparedStatement.setString(3, "NORMAL");
             preparedStatement.executeUpdate();
+
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if(resultSet.next()) {
+                produto.setId(resultSet.getInt(1));
+            }
         } catch (SQLException error) {
             System.out.println("Erro ao salvar produto: " + error.getMessage());
         }
@@ -35,16 +58,15 @@ public class ProdutoRepository {
 
         try(Connection connection = SQLiteConnection.conectar();
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query))
-        {
-            System.out.println(resultSet);
+            ResultSet resultSet = statement.executeQuery(query)) {
 
             while(resultSet.next()) {
-                Produto p = new Produto(resultSet.getInt("id"),
+                Produto produto = new Produto(
+                    resultSet.getInt("id"),
                     resultSet.getString("nome"),
                     resultSet.getDouble("preco")
                 );
-                produtos.add(p);
+                produtos.add(produto);
             }
         } catch(SQLException error) {
             System.out.println("Erro ao listar os produtos: " + error.getMessage());

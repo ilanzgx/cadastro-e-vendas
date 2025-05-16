@@ -11,14 +11,18 @@ public class Cliente {
     private String nome;
     private String cpf;
 
+    public Cliente() {
+        this.id = UUID.randomUUID();
+    }
+
     public Cliente(String nome, String cpf) {
         this.id = UUID.randomUUID();
         this.nome = nome;
         this.cpf = cpf;
     }
 
-    public UUID getId() {
-        return id;
+    public String getId() {
+        return id.toString();
     }
 
     public String getNome() {
@@ -35,5 +39,10 @@ public class Cliente {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + "]";
     }
 }
