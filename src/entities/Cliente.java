@@ -4,7 +4,6 @@ import java.util.UUID;
 
 /*
  TODO: Validação do CPF
- TODO: Método ToString
  */
 public class Cliente {
     private UUID id;
@@ -15,10 +14,20 @@ public class Cliente {
         this.id = UUID.randomUUID();
     }
 
+    public Cliente(UUID id, String nome, String cpf) {
+        this.id = id;
+        this.nome = nome;
+        this.cpf = cpf;
+    }
+
     public Cliente(String nome, String cpf) {
         this.id = UUID.randomUUID();
         this.nome = nome;
         this.cpf = cpf;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public String getId() {
@@ -43,6 +52,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Cliente [id=" + id + ", nome=" + nome + ", cpf=" + cpf + "]";
+        return String.format("%s (CPF: %s)", nome, cpf);
     }
 }

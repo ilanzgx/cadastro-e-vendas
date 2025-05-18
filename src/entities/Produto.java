@@ -6,8 +6,14 @@ public class Produto {
     private Double preco;
 
     public Produto() {}
+
     public Produto(Integer id, String nome, Double preco) {
         this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+    }
+
+    public Produto(String nome, Double preco) {
         this.nome = nome;
         this.preco = preco;
     }
@@ -34,5 +40,10 @@ public class Produto {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s - R$ %.2f", nome, preco);
     }
 }

@@ -5,6 +5,8 @@ import entities.Venda;
 import repositories.ProdutoRepository;
 import repositories.VendaRepository;
 
+import java.util.List;
+
 public class VendaService {
     private final VendaRepository vendaRepository;
     private final ProdutoRepository produtoRepository;
@@ -23,5 +25,13 @@ public class VendaService {
         }
 
         vendaRepository.salvar(venda);
+    }
+
+    public List<Venda> listarVendas() {
+        return vendaRepository.listarTodos();
+    }
+
+    public Venda listarVendaId(Integer vendaId) {
+        return vendaRepository.listarVendaId(vendaId);
     }
 }

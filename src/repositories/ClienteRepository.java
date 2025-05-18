@@ -6,6 +6,7 @@ import entities.Cliente;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ClienteRepository {
     public void criarTabela() {
@@ -39,7 +40,11 @@ public class ClienteRepository {
             ResultSet resultSet = statement.executeQuery(query)) {
 
             while(resultSet.next()) {
-                Cliente cliente = new Cliente(resultSet.getString("nome"), resultSet.getString("cpf"));
+                Cliente cliente = new Cliente(
+                    UUID.fromString(resultSet.getString("id")),
+                    resultSet.getString("nome"),
+                    resultSet.getString("cpf")
+                );
                 clientes.add(cliente);
             }
         } catch(SQLException error) {
