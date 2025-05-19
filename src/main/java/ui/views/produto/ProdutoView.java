@@ -20,14 +20,8 @@ public class ProdutoView extends JPanel {
         JButton buttonListar = new JButton("Listar produtos");
         buttonListar.addActionListener(event -> screenManager.showProdutoListView());
 
-        JButton buttonAtualizar = new JButton("Atualizar produto");
-
-        JButton buttonDeletar = new JButton("Deletar produto");
-
         buttonPanel.add(buttonCadastrar);
         buttonPanel.add(buttonListar);
-        buttonPanel.add(buttonAtualizar);
-        buttonPanel.add(buttonDeletar);
 
         // Centralizar os botões
         JPanel centerPanel = new JPanel(new GridBagLayout());

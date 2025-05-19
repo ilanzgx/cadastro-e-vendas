@@ -31,11 +31,23 @@ public class LivroService {
         return livroRepository.listarTodos();
     }
 
-    public void editarLivro(Livro livro) {
-        livroRepository.atualizar(livro);
+    public Boolean editarLivro(Livro livro) {
+        try {
+            livroRepository.atualizar(livro);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void deletarLivro(int id) {
-        livroRepository.deletar(id);
+    public Boolean deletarLivro(int id) {
+        try {
+            livroRepository.deletar(id);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

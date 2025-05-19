@@ -31,11 +31,23 @@ public class ProdutoService {
         return produtoRepository.listarTodos();
     }
 
-    public void editarProduto(Produto produto) {
-        produtoRepository.atualizar(produto);
+    public Boolean editarProduto(Produto produto) {
+        try {
+            produtoRepository.atualizar(produto);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void deletarProduto(int id) {
-        produtoRepository.deletar(id);
+    public Boolean deletarProduto(int id) {
+        try {
+            produtoRepository.deletar(id);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

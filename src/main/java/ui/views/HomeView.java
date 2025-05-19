@@ -20,11 +20,15 @@ public class HomeView extends JPanel {
         JButton buttonProdutos = new JButton("Gerenciar Produtos");
         buttonProdutos.setMargin(new Insets(20,100,20,100));
 
+        JButton buttonLivros = new JButton("Gerenciar Livros");
+        buttonLivros.setMargin(new Insets(20,100,20,100));
+
         JButton buttonVendas = new JButton("Gerenciar Vendas");
         buttonVendas.setMargin(new Insets(20,100,20,100));
 
         buttonClientes.addActionListener(event -> screenManager.showClienteMainView());
         buttonProdutos.addActionListener(event -> screenManager.showProdutoMainView());
+        buttonLivros.addActionListener(event -> screenManager.showLivroMainView());
         buttonVendas.addActionListener(event -> screenManager.showVendaMainView());
 
         gridBagConstraints.gridy = 0;
@@ -37,6 +41,9 @@ public class HomeView extends JPanel {
         add(buttonProdutos, gridBagConstraints);
 
         gridBagConstraints.gridy = 3;
+        add(buttonLivros, gridBagConstraints);
+
+        gridBagConstraints.gridy = 4;
         add(buttonVendas, gridBagConstraints);
     }
 }

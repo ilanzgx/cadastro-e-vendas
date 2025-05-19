@@ -21,11 +21,23 @@ public class ClienteService {
         return clienteRepository.listarTodos();
     }
 
-    public void editarCliente(Cliente cliente) {
-        clienteRepository.atualizar(cliente);
+    public Boolean editarCliente(Cliente cliente) {
+        try {
+            clienteRepository.atualizar(cliente);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public void deletarCliente(String id) {
-        clienteRepository.deletar(id);
+    public Boolean deletarCliente(String id) {
+        try {
+            clienteRepository.deletar(id);
+            return true;
+        } catch(Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

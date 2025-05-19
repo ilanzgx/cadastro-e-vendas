@@ -1,12 +1,12 @@
-package main.java.ui.views.cliente;
+package main.java.ui.views.livro;
 
 import main.java.ui.ScreenManager;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class ClienteView extends JPanel {
-    public ClienteView(ScreenManager screenManager) {
+public class LivroView extends JPanel {
+    public LivroView(ScreenManager screenManager) {
         setLayout(new BorderLayout());
 
         JButton buttonVoltar = new JButton("Voltar");
@@ -14,11 +14,11 @@ public class ClienteView extends JPanel {
 
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1, 10, 10));
 
-        JButton buttonCadastrar = new JButton("Cadastrar cliente");
-        buttonCadastrar.addActionListener(event -> screenManager.showClienteFormView());
+        JButton buttonCadastrar = new JButton("Cadastrar livro");
+        buttonCadastrar.addActionListener(event -> screenManager.showLivroFormView());
 
-        JButton buttonListar = new JButton("Listar clientes");
-        buttonListar.addActionListener(event -> screenManager.showClienteListView());
+        JButton buttonListar = new JButton("Listar livros");
+        buttonListar.addActionListener(event -> screenManager.showLivroListView());
 
         buttonPanel.add(buttonCadastrar);
         buttonPanel.add(buttonListar);

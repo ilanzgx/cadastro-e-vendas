@@ -24,4 +24,12 @@ public class ProdutoController {
     public List<Produto> listarProdutos() {
         return produtoService.listarProdutos();
     }
+
+    public Boolean editarProduto(Produto produto) {
+        return produtoService.editarProduto(produto);
+    }
+
+    public Boolean deletarProduto(Integer id) {
+        return produtoService.deletarProduto(id);
+    }
 }

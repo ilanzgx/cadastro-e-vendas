@@ -4,6 +4,9 @@ import main.java.ui.views.cliente.ClienteFormView;
 import main.java.ui.views.cliente.ClienteListView;
 import main.java.ui.views.cliente.ClienteView;
 import main.java.ui.views.HomeView;
+import main.java.ui.views.livro.LivroFormView;
+import main.java.ui.views.livro.LivroListView;
+import main.java.ui.views.livro.LivroView;
 import main.java.ui.views.produto.ProdutoFormView;
 import main.java.ui.views.produto.ProdutoListView;
 import main.java.ui.views.produto.ProdutoView;
@@ -63,6 +66,15 @@ public class ScreenManager {
         mainPanel.add(vendaFormView, "VENDA_FORM");
         mainPanel.add(vendaListView, "VENDA_LIST");
         mainPanel.add(vendaListDetalhesView, "VENDA_DETALHES");
+
+        // Views de Livro
+        LivroView livroView = new LivroView(this);
+        LivroListView livroListView = new LivroListView(this);
+        LivroFormView livroFormView = new LivroFormView(this, livroListView);
+
+        mainPanel.add(livroView, "LIVRO_MAIN");
+        mainPanel.add(livroFormView, "LIVRO_FORM");
+        mainPanel.add(livroListView, "LIVRO_LIST");
     }
 
     public void showHomeView() {
@@ -75,7 +87,6 @@ public class ScreenManager {
     *   showClienteMainView - Página inicial de clientes
     *   showClienteFormView - Cadastro de um cliente
     *   showClienteListView - Listar todos os clientes
-    *   TODO: showClienteUpdateView e showClienteDeleteView. OU fazer interação no listview com as respectivas funcionalidades.
     * */
     public void showClienteMainView() {
         cardLayout.show(mainPanel, "CLIENTE_MAIN");
@@ -97,7 +108,6 @@ public class ScreenManager {
      *   showProdutoMainView - Página inicial de clientes
      *   showProdutoFormView - Cadastro de um cliente
      *   showProdutoListView - Listar todos os clientes
-     *   TODO: showProdutoUpdateView e showProdutoDeleteView. OU fazer interação no listview com as respectivas funcionalidades.
      * */
     public void showProdutoMainView() {
         cardLayout.show(mainPanel, "PRODUTO_MAIN");
@@ -120,7 +130,6 @@ public class ScreenManager {
      *   showVendaFormView - Cadastro de um cliente
      *   showVendaListView - Listar todos os clientes
      *   showVendaDetalhesView - Detalhes de uma venda
-     *   TODO: showVendaUpdateView e showVendaDeleteView. OU fazer interação no listview com as respectivas funcionalidades.
      * */
     public void showVendaMainView() {
         cardLayout.show(mainPanel, "VENDA_MAIN");
@@ -154,5 +163,33 @@ public class ScreenManager {
 
         cardLayout.show(mainPanel, "VENDA_DETALHES");
         window.setTitle(String.format("Sistema de vendas - Gerenciamento de vendas (detalhes id: %d)", vendaId));
+    }
+
+    /*
+     * Views de livros
+     *   showLivrosMainView - Página inicial de livros
+     *   showLivroFormView - Cadastro de um livro
+     *   showLivroListView - Listar todos os livros
+     * */
+    public void showLivroMainView() {
+        cardLayout.show(mainPanel, "LIVRO_MAIN");
+        window.setTitle("Sistema de vendas - Gerenciamento de livros");
+    }
+
+    public void showLivroFormView() {
+        LivroFormView vendaFormView = (LivroFormView) Arrays.stream(mainPanel.getComponents())
+                .filter(c -> c instanceof LivroFormView)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("View de cadastro não encontrada"));
+        //vendaFormView.carregarClientes();
+        //vendaFormView.carregarProdutos();
+
+        cardLayout.show(mainPanel, "LIVRO_FORM");
+        window.setTitle("Sistema de vendas - Gerenciamento de livros (cadastro)");
+    }
+
+    public void showLivroListView() {
+        cardLayout.show(mainPanel, "LIVRO_LIST");
+        window.setTitle("Sistema de vendas - Gerenciamento de livros (listar)");
     }
 }

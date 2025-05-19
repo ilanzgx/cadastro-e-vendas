@@ -20,14 +20,8 @@ public class VendaView extends JPanel {
         JButton buttonListar = new JButton("Listar vendas");
         buttonListar.addActionListener(event -> screenManager.showVendaListView());
 
-        JButton buttonAtualizar = new JButton("Atualizar venda");
-
-        JButton buttonDeletar = new JButton("Deletar venda");
-
         buttonPanel.add(buttonCadastrar);
         buttonPanel.add(buttonListar);
-        buttonPanel.add(buttonAtualizar);
-        buttonPanel.add(buttonDeletar);
 
         // Centralizar os botões
         JPanel centerPanel = new JPanel(new GridBagLayout());

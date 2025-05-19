@@ -24,4 +24,12 @@ public class ClienteController {
     public List<Cliente> listarClientes() {
         return clienteService.listarClientes();
     }
+
+    public Boolean editarCliente(Cliente cliente) {
+        return clienteService.editarCliente(cliente);
+    }
+
+    public Boolean deletarCliente(String id) {
+        return clienteService.deletarCliente(id);
+    }
 }
