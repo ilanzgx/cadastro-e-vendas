@@ -1,5 +1,7 @@
 package main.java.entities;
 
+import main.java.utils.CpfUtils;
+
 import java.util.UUID;
 
 /*
@@ -52,6 +54,6 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return String.format("%s (CPF: %s)", nome, cpf);
+        return String.format("%s (CPF: %s)", nome, CpfUtils.format(cpf));
     }
 }

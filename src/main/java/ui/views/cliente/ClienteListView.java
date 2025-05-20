@@ -3,6 +3,7 @@ package main.java.ui.views.cliente;
 import main.java.controllers.ClienteController;
 import main.java.entities.Cliente;
 import main.java.ui.ScreenManager;
+import main.java.utils.CpfUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -83,7 +84,7 @@ public class ClienteListView extends JPanel {
             defaultTableModel.addRow(new Object[]{
                 cliente.getId(),
                 cliente.getNome(),
-                cliente.getCpf()
+                CpfUtils.format(cliente.getCpf())
             });
         }
     }
@@ -112,11 +113,16 @@ public class ClienteListView extends JPanel {
         if(novoCpf == null)
             return;
 
+        if(!CpfUtils.isValid(novoCpf)) {
+            JOptionPane.showMessageDialog(this, "CPF inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
             Cliente clienteEditado = new Cliente();
             clienteEditado.setId(UUID.fromString(clienteId));
             clienteEditado.setNome(novoNome);
-            clienteEditado.setCpf(novoCpf);
+            clienteEditado.setCpf(CpfUtils.clean(novoCpf));
 
             Boolean resposta = clienteController.editarCliente(clienteEditado);
 

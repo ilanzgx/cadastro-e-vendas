@@ -2,6 +2,7 @@ package main.java.ui.views.cliente;
 
 import main.java.controllers.ClienteController;
 import main.java.ui.ScreenManager;
+import main.java.utils.CpfUtils;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -68,8 +69,13 @@ public class ClienteFormView extends JPanel {
     }
 
     private void cadastrarCliente(String nome, String cpf) {
+        if(!CpfUtils.isValid(cpf)) {
+            JOptionPane.showMessageDialog(this, "CPF inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
-            clienteController.salvarCliente(nome, cpf);
+            clienteController.salvarCliente(nome, CpfUtils.clean(cpf));
 
             JOptionPane.showMessageDialog(this, "Cliente registrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             clienteListView.atualizarLista();

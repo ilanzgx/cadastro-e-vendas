@@ -9,6 +9,7 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import main.java.controllers.VendaController;
 import main.java.entities.Venda;
 import main.java.ui.ScreenManager;
+import main.java.utils.CpfUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -96,7 +97,7 @@ public class VendaListDetalhesView extends JPanel {
     private void atualizarInformacoes() {
         labelId.setText(String.valueOf(vendaAtual.getId()));
         labelData.setText(vendaAtual.getData());
-        labelCliente.setText(vendaAtual.getCliente().getNome() + " (CPF: " + vendaAtual.getCliente().getCpf() + ")");
+        labelCliente.setText(String.format("%s (CPF: %s)", vendaAtual.getCliente().getNome(), CpfUtils.format(vendaAtual.getCliente().getCpf())));
 
         double total = vendaAtual.getProdutosQuantidades().entrySet().stream()
                 .mapToDouble(e -> e.getKey().getPreco() * e.getValue())
@@ -146,7 +147,7 @@ public class VendaListDetalhesView extends JPanel {
             document.add(new Paragraph(String.format("Data: %s", dataFormatada)));
 
             document.add(new Paragraph(String.format("Cliente: %s", vendaAtual.getCliente().getNome())));
-            document.add(new Paragraph(String.format("CPF: %s", vendaAtual.getCliente().getCpf())));
+            document.add(new Paragraph(String.format("CPF: %s", CpfUtils.format(vendaAtual.getCliente().getCpf()))));
 
             document.add(new Paragraph(" "));
 
