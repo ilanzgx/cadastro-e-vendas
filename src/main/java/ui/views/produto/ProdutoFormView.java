@@ -1,28 +1,39 @@
 package main.java.ui.views.produto;
 
 import main.java.controllers.ProdutoController;
-import main.java.entities.Produto;
 import main.java.ui.ScreenManager;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ProdutoFormView extends JPanel {
     private final ProdutoController produtoController;
+    private final ScreenManager screenManager;
 
     private JTextField textNome, textPreco;
     private final ProdutoListView produtoListView;
 
     public ProdutoFormView(ScreenManager screenManager, ProdutoListView listView) {
-        setLayout(new BorderLayout());
         this.produtoListView = listView;
+        this.screenManager = screenManager;
         this.produtoController = new ProdutoController();
 
-        JButton buttonVoltar = new JButton("Voltar");
-        buttonVoltar.addActionListener(event -> screenManager.showProdutoMainView());
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        // Formulário
-        JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+
+        JLabel titulo = new JLabel("Cadastro de Produto");
+        titulo.setFont(new Font("SansSerif", Font.BOLD, 18));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(titulo);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        JPanel formPanel = new JPanel(new GridLayout(4, 4, 5, 5));
+        formPanel.setMaximumSize(new Dimension(500, 80));
 
         formPanel.add(new JLabel("Nome:"));
         textNome = new JTextField();
@@ -32,32 +43,41 @@ public class ProdutoFormView extends JPanel {
         textPreco = new JTextField();
         formPanel.add(textPreco);
 
-        JButton buttonSalvar = new JButton("Salvar");
-        buttonSalvar.addActionListener(event -> {
-            try {
-                Produto novoProduto = produtoController.salvarProduto(
-                    textNome.getText(),
-                    Double.parseDouble(textPreco.getText())
-                );
+        mainPanel.add(formPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 
-                produtoListView.atualizarLista();
-                screenManager.showProdutoMainView();
-            } catch (NumberFormatException numberFormatException) {
-                JOptionPane.showMessageDialog(this,
-                "Preço inválido! Digite um valor numérico.",
-                "Erro", JOptionPane.ERROR_MESSAGE);
-            } catch(Exception error) {
-                JOptionPane.showMessageDialog(this,
-                "Erro ao salvar produto: " + error.getMessage(),
-                "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        JButton buttonVoltar = new JButton("Voltar");
+        buttonVoltar.setMargin(new Insets(8, 30, 8, 30));
+        JButton buttonSalvar = new JButton("Salvar");
+        buttonSalvar.setMargin(new Insets(8, 30, 8, 30));
+
+        buttonSalvar.addActionListener(event -> {
+            cadastrarProduto(textNome.getText(), Double.parseDouble(textPreco.getText()));
         });
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.add(buttonVoltar, BorderLayout.NORTH);
-        mainPanel.add(formPanel, BorderLayout.CENTER);
-        mainPanel.add(buttonSalvar, BorderLayout.SOUTH);
+        buttonVoltar.addActionListener(event -> screenManager.showProdutoMainView());
 
-        add(mainPanel, BorderLayout.CENTER);
+        buttonPanel.add(buttonSalvar);
+        buttonPanel.add(buttonVoltar);
+        mainPanel.add(buttonPanel);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(mainPanel, gbc);
+    }
+
+    private void cadastrarProduto(String nome, Double preco) {
+        try {
+            produtoController.salvarProduto(nome, preco);
+
+            JOptionPane.showMessageDialog(this, "Produto registrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            produtoListView.atualizarLista();
+            screenManager.showProdutoMainView();
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao salvar produto: " + error.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

@@ -79,7 +79,7 @@ public class ScreenManager {
 
     public void showHomeView() {
         cardLayout.show(mainPanel, "HOME");
-        window.setTitle("Sistema de vendas - Home");
+        window.setTitle("Sistema de vendas - Página inicial");
     }
 
     /*
@@ -99,6 +99,13 @@ public class ScreenManager {
     }
 
     public void showClienteListView() {
+        ClienteListView clienteListView = (ClienteListView) Arrays.stream(mainPanel.getComponents())
+                .filter(c -> c instanceof ClienteListView)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("View de list não encontrada"));
+
+        clienteListView.atualizarLista();
+
         cardLayout.show(mainPanel, "CLIENTE_LIST");
         window.setTitle("Sistema de vendas - Gerenciamento de clientes (listar)");
     }
@@ -120,6 +127,13 @@ public class ScreenManager {
     }
 
     public void showProdutoListView() {
+        ProdutoListView produtoListView = (ProdutoListView) Arrays.stream(mainPanel.getComponents())
+                .filter(c -> c instanceof ProdutoListView)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("View de list não encontrada"));
+
+        produtoListView.atualizarLista();
+
         cardLayout.show(mainPanel, "PRODUTO_LIST");
         window.setTitle("Sistema de vendas - Gerenciamento de produtos (listar)");
     }
@@ -149,6 +163,13 @@ public class ScreenManager {
     }
 
     public void showVendaListView() {
+        VendaListView vendaListView = (VendaListView) Arrays.stream(mainPanel.getComponents())
+                .filter(c -> c instanceof VendaListView)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("View de list não encontrada"));
+
+        vendaListView.atualizarLista();
+
         cardLayout.show(mainPanel, "VENDA_LIST");
         window.setTitle("Sistema de vendas - Gerenciamento de vendas (listar)");
     }

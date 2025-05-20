@@ -1,25 +1,39 @@
 package main.java.ui.views.cliente;
 
 import main.java.controllers.ClienteController;
-import main.java.entities.Cliente;
 import main.java.ui.ScreenManager;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class ClienteFormView extends JPanel {
+    private final ClienteController clienteController;
+    private final ScreenManager screenManager;
+
     private JTextField textNome, textCpf;
     private final ClienteListView clienteListView;
 
     public ClienteFormView(ScreenManager screenManager, ClienteListView listView) {
-        setLayout(new BorderLayout());
+        this.clienteController = new ClienteController();
+        this.screenManager = screenManager;
         this.clienteListView = listView;
 
-        JButton buttonVoltar = new JButton("Voltar");
-        buttonVoltar.addActionListener(event -> screenManager.showClienteMainView());
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        // Formulário
-        JPanel formPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(new EmptyBorder(20, 40, 20, 40));
+
+        JLabel titulo = new JLabel("Cadastro de Cliente");
+        titulo.setFont(new Font("SansSerif", Font.BOLD, 18));
+        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(titulo);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        JPanel formPanel = new JPanel(new GridLayout(4, 4, 5, 5));
+        formPanel.setMaximumSize(new Dimension(500, 80));
 
         formPanel.add(new JLabel("Nome:"));
         textNome = new JTextField();
@@ -29,30 +43,41 @@ public class ClienteFormView extends JPanel {
         textCpf = new JTextField();
         formPanel.add(textCpf);
 
+        mainPanel.add(formPanel);
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        JButton buttonVoltar = new JButton("Voltar");
+        buttonVoltar.setMargin(new Insets(8, 30, 8, 30));
         JButton buttonSalvar = new JButton("Salvar");
+        buttonSalvar.setMargin(new Insets(8, 30, 8, 30));
+
         buttonSalvar.addActionListener(event -> {
-            ClienteController clienteController = new ClienteController();
-            try {
-                Cliente novoCliente = clienteController.salvarCliente(
-                    textNome.getText(),
-                    textCpf.getText()
-                );
-
-                clienteListView.atualizarLista();
-                screenManager.showClienteMainView();
-            } catch(Exception error) {
-                JOptionPane.showMessageDialog(this,
-                    "Erro ao salvar cliente: " + error.getMessage(),
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            }
-
+            cadastrarCliente(textNome.getText(), textCpf.getText());
         });
 
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.add(buttonVoltar, BorderLayout.NORTH);
-        mainPanel.add(formPanel, BorderLayout.CENTER);
-        mainPanel.add(buttonSalvar, BorderLayout.SOUTH);
+        buttonVoltar.addActionListener(event -> screenManager.showClienteMainView());
 
-        add(mainPanel, BorderLayout.CENTER);
+        buttonPanel.add(buttonSalvar);
+        buttonPanel.add(buttonVoltar);
+        mainPanel.add(buttonPanel);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        add(mainPanel, gbc);
+    }
+
+    private void cadastrarCliente(String nome, String cpf) {
+        try {
+            clienteController.salvarCliente(nome, cpf);
+
+            JOptionPane.showMessageDialog(this, "Cliente registrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            clienteListView.atualizarLista();
+            screenManager.showClienteMainView();
+        } catch (Exception error) {
+            JOptionPane.showMessageDialog(this,
+                    "Erro ao salvar cliente: " + error.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
