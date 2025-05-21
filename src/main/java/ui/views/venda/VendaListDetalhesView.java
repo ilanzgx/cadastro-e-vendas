@@ -10,6 +10,7 @@ import main.java.controllers.VendaController;
 import main.java.entities.Venda;
 import main.java.ui.ScreenManager;
 import main.java.utils.CpfUtils;
+import main.java.utils.DateUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,8 +18,7 @@ import java.awt.*;
 import java.awt.Font;
 import java.io.FileOutputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalTime;
 import java.util.stream.Stream;
 
 public class VendaListDetalhesView extends JPanel {
@@ -141,11 +141,7 @@ public class VendaListDetalhesView extends JPanel {
             document.add(new Paragraph(" "));
 
             document.add(new Paragraph(String.format("ID da Venda: %d", vendaAtual.getId())));
-
-            LocalDateTime dataHora = LocalDateTime.parse(vendaAtual.getData());
-            String dataFormatada = dataHora.toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            document.add(new Paragraph(String.format("Data: %s", dataFormatada)));
-
+            document.add(new Paragraph(String.format("Data: %s", DateUtils.formatDateTime(DateUtils.parseDateTime(vendaAtual.getData())))));
             document.add(new Paragraph(String.format("Cliente: %s", vendaAtual.getCliente().getNome())));
             document.add(new Paragraph(String.format("CPF: %s", CpfUtils.format(vendaAtual.getCliente().getCpf()))));
 
@@ -195,10 +191,8 @@ public class VendaListDetalhesView extends JPanel {
             paragraphTotal.setAlignment(Element.ALIGN_RIGHT);
             document.add(paragraphTotal);
 
-            DateTimeFormatter formatterTime = DateTimeFormatter.ofPattern("H:mm:ss");
-            DateTimeFormatter formatterDate = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             com.itextpdf.text.Font fontRodape = new com.itextpdf.text.Font(com.itextpdf.text.Font.FontFamily.HELVETICA, 9, Font.ITALIC);
-            Paragraph paragraphRodape = new Paragraph(String.format("Gerado em %s as %s", java.time.LocalDate.now().format(formatterDate), java.time.LocalTime.now().format(formatterTime)), fontRodape);
+            Paragraph paragraphRodape = new Paragraph(String.format("Gerado em %s as %s", DateUtils.formatDate(LocalDate.now()), DateUtils.formatTime(LocalTime.now())), fontRodape);
             paragraphRodape.setAlignment(Element.ALIGN_CENTER);
             document.add(new Paragraph(" "));
             document.add(paragraphRodape);

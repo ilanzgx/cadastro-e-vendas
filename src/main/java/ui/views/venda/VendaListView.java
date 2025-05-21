@@ -3,6 +3,7 @@ package main.java.ui.views.venda;
 import main.java.controllers.VendaController;
 import main.java.entities.Venda;
 import main.java.ui.ScreenManager;
+import main.java.utils.DateUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -85,7 +86,7 @@ public class VendaListView extends JPanel {
 
             defaultTableModel.addRow(new Object[]{
                 venda.getId(),
-                venda.getData(),
+                DateUtils.formatDateTime(DateUtils.parseDateTime(venda.getData())),
                 venda.getCliente().getNome(),
                 String.format("R$ %.2f", total),
                 quantidadeItems
