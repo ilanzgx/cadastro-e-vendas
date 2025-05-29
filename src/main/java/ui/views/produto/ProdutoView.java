@@ -16,9 +16,11 @@ public class ProdutoView extends JPanel {
 
         JButton buttonCadastrar = new JButton("Cadastrar produto");
         buttonCadastrar.addActionListener(event -> screenManager.showProdutoFormView());
+        buttonCadastrar.setMargin(new Insets(10, 50, 10, 50));
 
         JButton buttonListar = new JButton("Listar produtos");
         buttonListar.addActionListener(event -> screenManager.showProdutoListView());
+        buttonListar.setMargin(new Insets(10, 50, 10, 50));
 
         buttonPanel.add(buttonCadastrar);
         buttonPanel.add(buttonListar);

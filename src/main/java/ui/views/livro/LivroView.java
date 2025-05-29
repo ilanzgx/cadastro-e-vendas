@@ -16,9 +16,11 @@ public class LivroView extends JPanel {
 
         JButton buttonCadastrar = new JButton("Cadastrar livro");
         buttonCadastrar.addActionListener(event -> screenManager.showLivroFormView());
+        buttonCadastrar.setMargin(new Insets(10, 50, 10, 50));
 
         JButton buttonListar = new JButton("Listar livros");
         buttonListar.addActionListener(event -> screenManager.showLivroListView());
+        buttonListar.setMargin(new Insets(10, 50, 10, 50));
 
         buttonPanel.add(buttonCadastrar);
         buttonPanel.add(buttonListar);

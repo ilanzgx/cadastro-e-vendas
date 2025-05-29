@@ -16,9 +16,11 @@ public class ClienteView extends JPanel {
 
         JButton buttonCadastrar = new JButton("Cadastrar cliente");
         buttonCadastrar.addActionListener(event -> screenManager.showClienteFormView());
+        buttonCadastrar.setMargin(new Insets(10, 50, 10, 50));
 
         JButton buttonListar = new JButton("Listar clientes");
         buttonListar.addActionListener(event -> screenManager.showClienteListView());
+        buttonListar.setMargin(new Insets(10, 50, 10, 50));
 
         buttonPanel.add(buttonCadastrar);
         buttonPanel.add(buttonListar);

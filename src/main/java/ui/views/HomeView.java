@@ -10,6 +10,7 @@ public class HomeView extends JPanel {
         setLayout(new GridBagLayout());
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.insets = new Insets(10, 10, 10, 10);
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
 
         JLabel title = new JLabel("Sistemas de vendas");
         title.setFont(new Font("Arial", Font.BOLD, 24));
