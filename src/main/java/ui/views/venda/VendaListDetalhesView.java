@@ -96,8 +96,12 @@ public class VendaListDetalhesView extends JPanel {
 
     private void atualizarInformacoes() {
         labelId.setText(String.valueOf(vendaAtual.getId()));
-        labelData.setText(vendaAtual.getData());
-        labelCliente.setText(String.format("%s (CPF: %s)", vendaAtual.getCliente().getNome(), CpfUtils.format(vendaAtual.getCliente().getCpf())));
+        labelData.setText(DateUtils.formatDateTime(DateUtils.parseDateTime(vendaAtual.getData())));
+
+        labelCliente.setText(String.format("%s (CPF: %s)",
+                vendaAtual.getCliente().getNome(),
+                CpfUtils.format(vendaAtual.getCliente().getCpf()))
+        );
 
         double total = vendaAtual.getProdutosQuantidades().entrySet().stream()
                 .mapToDouble(e -> e.getKey().getPreco() * e.getValue())

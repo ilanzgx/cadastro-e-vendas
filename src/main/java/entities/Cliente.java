@@ -4,9 +4,6 @@ import main.java.utils.CpfUtils;
 
 import java.util.UUID;
 
-/*
- TODO: Validação do CPF
- */
 public class Cliente {
     private UUID id;
     private String nome;

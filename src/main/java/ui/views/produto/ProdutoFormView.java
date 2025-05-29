@@ -53,7 +53,7 @@ public class ProdutoFormView extends JPanel {
         buttonSalvar.setMargin(new Insets(8, 30, 8, 30));
 
         buttonSalvar.addActionListener(event -> {
-            cadastrarProduto(textNome.getText(), Double.parseDouble(textPreco.getText()));
+            cadastrarProduto();
         });
 
         buttonVoltar.addActionListener(event -> screenManager.showProdutoMainView());
@@ -67,9 +67,28 @@ public class ProdutoFormView extends JPanel {
         add(mainPanel, gbc);
     }
 
-    private void cadastrarProduto(String nome, Double preco) {
+    private void cadastrarProduto() {
+        String nome_ = textNome.getText().trim();
+        String preco_ = textPreco.getText().trim();
+
+        if (nome_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O nome do produto é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textNome.requestFocus();
+            return;
+        }
+
+        if (preco_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O preço do produto é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textPreco.requestFocus();
+            return;
+        }
+
         try {
-            produtoController.salvarProduto(nome, preco);
+            produtoController.salvarProduto(nome_, Double.parseDouble(preco_));
 
             JOptionPane.showMessageDialog(this, "Produto registrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             produtoListView.atualizarLista();

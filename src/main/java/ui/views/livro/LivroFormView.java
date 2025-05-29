@@ -57,7 +57,7 @@ public class LivroFormView extends JPanel {
         buttonSalvar.setMargin(new Insets(8, 30, 8, 30));
 
         buttonSalvar.addActionListener(event -> {
-            cadastrarLivro(textNome.getText(), Double.parseDouble(textPreco.getText()), textAutor.getText());
+            cadastrarLivro();
         });
 
         buttonVoltar.addActionListener(event -> screenManager.showLivroMainView());
@@ -71,9 +71,37 @@ public class LivroFormView extends JPanel {
         add(mainPanel, gbc);
     }
 
-    private void cadastrarLivro(String nome, Double preco, String autor) {
+    private void cadastrarLivro() {
+        String nome_ = textNome.getText().trim();
+        String preco_ = textPreco.getText().trim();
+        String autor_ = textAutor.getText().trim();
+
+        if (nome_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O nome do livro é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textNome.requestFocus();
+            return;
+        }
+
+        if (preco_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O preço do livro é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textPreco.requestFocus();
+            return;
+        }
+
+        if (autor_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O nome do autor é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textAutor.requestFocus();
+            return;
+        }
+
         try {
-            livroController.salvarLivro(nome, preco, autor);
+            livroController.salvarLivro(nome_, Double.parseDouble(preco_), autor_);
 
             JOptionPane.showMessageDialog(this, "Livro registrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             livroListView.atualizarLista();

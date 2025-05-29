@@ -54,7 +54,7 @@ public class ClienteFormView extends JPanel {
         buttonSalvar.setMargin(new Insets(8, 30, 8, 30));
 
         buttonSalvar.addActionListener(event -> {
-            cadastrarCliente(textNome.getText(), textCpf.getText());
+            cadastrarCliente();
         });
 
         buttonVoltar.addActionListener(event -> screenManager.showClienteMainView());
@@ -68,14 +68,33 @@ public class ClienteFormView extends JPanel {
         add(mainPanel, gbc);
     }
 
-    private void cadastrarCliente(String nome, String cpf) {
-        if(!CpfUtils.isValid(cpf)) {
+    private void cadastrarCliente() {
+        String nome_ = textNome.getText().trim();
+        String cpf_ = textCpf.getText().trim();
+
+        if (nome_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O nome do cliente é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textNome.requestFocus();
+            return;
+        }
+
+        if (cpf_.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "O Cpf do cliente é obrigatório!",
+                    "Aviso", JOptionPane.WARNING_MESSAGE);
+            textCpf.requestFocus();
+            return;
+        }
+
+        if(!CpfUtils.isValid(cpf_)) {
             JOptionPane.showMessageDialog(this, "CPF inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            clienteController.salvarCliente(nome, CpfUtils.clean(cpf));
+            clienteController.salvarCliente(nome_, CpfUtils.clean(cpf_));
 
             JOptionPane.showMessageDialog(this, "Cliente registrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             clienteListView.atualizarLista();

@@ -3,6 +3,7 @@ package main.java.controllers;
 import main.java.entities.Produto;
 import main.java.services.ProdutoService;
 
+import javax.swing.*;
 import java.util.List;
 
 public class ProdutoController {
@@ -17,7 +18,12 @@ public class ProdutoController {
         produto.setNome(nome);
         produto.setPreco(preco);
 
-        produtoService.criarProduto(produto);
+        try {
+            produtoService.criarProduto(produto);
+        } catch (Exception error) {
+            System.out.println("Erro ao criar produto:" + error.getMessage());
+        }
+
         return produto;
     }
 

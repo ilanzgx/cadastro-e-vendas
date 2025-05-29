@@ -187,14 +187,18 @@ public class VendaFormView extends JPanel {
         try {
             Cliente cliente = (Cliente)clienteCombo.getSelectedItem();
 
+            Map<Produto, Integer> copiaProdutos = new HashMap<>(produtosVenda);
+
             Venda venda = new Venda();
             venda.setCliente(cliente);
-            venda.setProdutosQuantidades(produtosVenda);
+            venda.setProdutosQuantidades(copiaProdutos);
             venda.setData(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 
             vendaController.salvarVenda(venda);
 
             JOptionPane.showMessageDialog(this, "Venda registrada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            atualizarTabelaProdutos();
             screenManager.showVendaMainView();
 
         } catch (Exception e) {

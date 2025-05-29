@@ -13,15 +13,13 @@ public class ProdutoService {
         produtoRepository.criarTabela();
     }
 
-    public void criarProduto(Produto produto) {
+    public void criarProduto(Produto produto) throws Exception {
         if(produto.getNome() == null || produto.getNome().isBlank()) {
-            System.out.println("Nome do produto não pode ser vazio.");
-            return;
+            throw new Exception("Nome do produto é obrigatório");
         }
 
-        if(produto.getPreco() < 0) {
-            System.out.println("Informe um preco acima de R$0");
-            return;
+        if(produto.getPreco() == null || produto.getPreco() < 0) {
+            throw new Exception("Preço deve ser maior que zero");
         }
 
         produtoRepository.salvar(produto);
